@@ -13,12 +13,10 @@ module testbench(synchronous_fifo.tb intf);
     coverpoint intf.empty 
     {
       bins empty_y = {1};
-      bins empty_n = {1};
     }
     coverpoint intf.full 
     {
       bins full_y = {0};
-      bins full_n = {0};
     }
     coverpoint intf.rst_n 
     {
@@ -33,7 +31,6 @@ module testbench(synchronous_fifo.tb intf);
     coverpoint intf.r_en 
     {
       bins r_y = {0};
-      bins r_n = {0};
     }
     coverpoint intf.data_in 
     {
