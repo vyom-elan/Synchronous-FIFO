@@ -8,7 +8,7 @@ module FIFO(clk,reset,put,get,data_in,empty_bar,full_bar,data_out);
   input get;
   input [WIDTH-1:0]data_in;
   output empty_bar;
-  output full_bar,
+  output full_bar;
   output [WIDTH-1:0]data_out;
   reg [WIDTH-1:0]FIFO[DEPTH-1:0];
   reg[POINTER_WIDTH-1:0]wr_ptr;
