@@ -1,18 +1,73 @@
-// TRANSACTION CLASS
-class fifo_transaction extends uvm_sequence_item;
+// SEQUENCE
+class fifo_test_1_sequence extends uvm_sequence #(fifo_transaction);
 
-    rand logic [7:0] data_in;                                            // Randomized input data
-    rand logic rd_en;                                                    // Read enable flag
-    rand logic wr_en;                                                    // Write enable flag
-  
-    function new(string name = "fifo_transaction");                      // Constructor
+    `uvm_object_utils(fifo_test_1_sequence)
+    fifo_transaction trans;                                               // Transaction object
+
+    function new(string name = "fifo_seq_1");
         super.new(name);
     endfunction
 
-    `uvm_object_utils_begin(fifo_transaction)                            // Function to display transaction information
-        `uvm_field_int(data_in, UVM_ALL_ON)
-        `uvm_field_int(rd_en, UVM_ALL_ON)
-        `uvm_field_int(wr_en, UVM_ALL_ON)
-    `uvm_object_utils_end
+    task body();                                                          // Sequence body
 
-endclass
+        for (int i = 0; i < 40; i++) begin
+
+            $display("Inside fifo_test_1_sequence");
+
+            trans = fifo_transaction::type_id::create("tx_fifo_trans");
+            start_item(trans);
+
+            $display("Inside fifo_test_1_sequence starting item");
+
+            if (i < 20) begin
+                if (!trans.randomize() with {trans.rd_en == 1'b1; trans.wr_en == 1'b0;}) begin
+                    `uvm_error("Sequence", "Randomization failure for trasaction")
+                end
+            end
+
+            else begin
+                if (!trans.randomize() with {trans.rd_en == 1'b0; trans.wr_en == 1'b1;}) begin
+                    `uvm_error("Sequence", "Randomization failure for trasaction")
+                end
+            end
+            finish_item(trans);
+        end
+    endtask
+endclass : fifo_test_1_sequence
+
+
+class fifo_test_2_sequence extends uvm_sequence #(fifo_transaction);
+
+    `uvm_object_utils(fifo_test_2_sequence)
+    fifo_transaction trans;                                             // transaction class
+
+    function new(string name = "fifo_seq_2");
+        super.new(name);
+    endfunction
+
+    task body();                                                        // Sequence body
+
+        for (int i = 0; i < 64; i++) begin
+
+            $display("Inside fifo_test_2_sequence");
+
+            trans = fifo_transaction::type_id::create("tx_fifo_trans");
+            start_item(trans);
+
+            $display("Inside fifo_test_2_sequence starting item");
+
+            if (i < 8) begin
+                if (!trans.randomize() with {trans.rd_en == 1'b1; trans.wr_en == 1'b0;}) begin
+                    `uvm_error("Sequence", "Randomization failure for trasaction")
+                end
+            end
+
+            else begin
+                if (!trans.randomize() with {trans.rd_en == 1'b1; trans.wr_en == 1'b1;}) begin
+                    `uvm_error("Sequence", "Randomization failure for trasaction")
+                end
+            end
+            finish_item(trans);
+        end
+    endtask
+endclass : fifo_test_2_sequence
