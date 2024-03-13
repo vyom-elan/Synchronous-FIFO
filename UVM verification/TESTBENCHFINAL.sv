@@ -1,5 +1,4 @@
-//includes coverage
-//Coverage achieved=100%
+
 import uvm_pkg::*;
 `include "uvm_macros.svh"
 
