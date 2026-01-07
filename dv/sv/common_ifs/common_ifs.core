@@ -1,0 +1,18 @@
+CAPI=2:
+name: "serverid:dv:common_ifs"
+description: "Common interfaces used in DV"
+
+filesets:
+  files_dv:
+    depend:
+      - serverid:dv:pins_if
+    files:
+      - common_ifs_pkg.sv
+      - clk_if.sv
+      - clk_rst_if.sv
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_dv

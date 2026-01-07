@@ -1,0 +1,4 @@
+
+// Exclude all but the TL ports of the DUT.
+// TODO: This does not work.
+-ere module ^((?!tl_i$|tl_o$).)*$

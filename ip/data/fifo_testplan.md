@@ -1,0 +1,110 @@
+# Testplan
+
+## Testpoints
+
+### Stage V1 Testpoints
+
+#### `smoke`
+
+Test: `fifo_smoke`
+
+A simple test to verify the basic data path. The test first fills the
+FIFO completely and then empties it completely.
+
+**Stimulus**:
+- A sequence of 8 write transactions (`wr_en` = 1, `rd_en` = 0) is sent to fill the FIFO.
+- `data_in` is randomized for each write.
+- After a short delay, a sequence of 8 read transactions (`wr_en` = 0, `rd_en` = 1) is sent to empty the FIFO.
+
+**Checks**:
+- The scoreboard verifies that `wr_ack` is asserted for each valid write.
+- The scoreboard verifies that the status flags (`full`, `empty`, `almostfull`, `almostempty`) are correct on every clock cycle.
+- The scoreboard uses a reference queue to verify that the `data_out` for each read matches the first-in data.
+- The scoreboard verifies that `overflow` and `underflow` flags are asserted correctly based on a one-cycle delay model.
+
+### Stage V2 Testpoints
+
+#### `overflow`
+
+Test: `fifo_overflow`
+
+Verifies the FIFO overflow mechanism.
+
+**Stimulus**:
+- The FIFO is filled to capacity (8 writes).
+- A 9th write is attempted, which should trigger the overflow flag.
+- One item is then read to make space.
+- A final write is performed, which should now succeed.
+
+**Checks**:
+- Scoreboard verifies that `overflow` is asserted for one cycle following the 9th write attempt.
+- Scoreboard verifies that `wr_ack` is NOT asserted for the 9th write.
+- Scoreboard verifies that the final write IS acknowledged.
+- All data and status flags are checked throughout.
+
+#### `underflow`
+
+Test: `fifo_underflow`
+
+Verifies the FIFO underflow mechanism.
+
+**Stimulus**:
+- A read is attempted on the FIFO immediately after reset, when it is empty.
+- One item is then written to the FIFO.
+- That one item is read back to verify the FIFO has recovered.
+
+**Checks**:
+- Scoreboard verifies that `underflow` is asserted for one cycle following the read attempt on the empty FIFO.
+- Scoreboard verifies that the subsequent write and read operations succeed.
+- All data and status flags are checked throughout.
+
+#### `almost_full_empty`
+
+Test: `fifo_almost_full_empty`
+
+Verifies the FIFO's `almostfull` and `almostempty` status flags by
+testing the transitions across these boundary conditions.
+
+**Stimulus**:
+- FIFO is filled until `almostfull` is high, then one more write is sent.
+- FIFO is then drained until `almostempty` is high, then one more read is sent.
+- Transitions back into the almost states are also tested.
+
+**Checks**:
+- The scoreboard verifies that the `almostfull` and `almostempty` flags are
+  asserted and de-asserted on the correct clock cycles.
+- All other standard data and status checks are active.
+
+### Stage V3 Testpoints
+
+#### `back_to_back`
+
+Test: `fifo_back_to_back`
+
+Stress tests the DUT with a long stream of continuous, back-to-back
+operations with no idle time, testing the full and empty boundaries.
+
+**Stimulus**:
+- FIFO is filled completely.
+- A long, randomized stream of reads and writes is sent.
+- The FIFO is drained at the end.
+
+**Checks**:
+- All standard scoreboard checks are active. This is a high-stress
+  test for the scoreboard's reference model and latency handling.
+
+## Covergroups
+
+### fifo_cross_cg
+
+Measures the values of individual control and status signals (`wr_en`, `rd_en`, `full`,
+`empty`, `overflow`, `underflow`, etc.) on every clock cycle.
+
+It also measures key cross-combinations of these signals to ensure operations are
+tested under different FIFO status conditions (e.g., writing when full, reading when
+empty).
+
+Includes illegal bins to verify that invalid latent conditions (e.g., an `overflow`
+flag appearing without a preceding write enable) do not occur.
+
+

@@ -1,0 +1,28 @@
+CAPI=2:
+
+name: "server_name:dv:fifo_sim:0.1"
+description: "FIFO DV sim target"
+filesets:
+  files_rtl:
+    depend:
+      - server_name:ip:fifo
+
+  files_dv:
+    depend:
+      - server_name:dv:fifo_test
+      - server_name:dv:fifo_sva
+    files:
+      - tb.sv
+    file_type: systemVerilogSource
+
+targets:
+  sim: &sim_target
+    toplevel: tb
+    filesets:
+      - files_rtl
+      - files_dv
+    default_tool: vcs
+
+  # TODO: add a lint check cfg in `hw/top_earlgrey/lint/top_earlgrey_dv_lint_cfgs.hjson`
+  lint:
+    <<: *sim_target

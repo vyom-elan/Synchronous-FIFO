@@ -1,0 +1,17 @@
+CAPI=2:
+
+name: "serverhost:earlgrey_constants:top_pkg"
+description: "Toplevel-wide constants for Earl Grey"
+virtual:
+  - lowrisc:virtual_constants:top_pkg
+
+filesets:
+  files_rtl:
+    files:
+      - top_pkg.sv
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_rtl

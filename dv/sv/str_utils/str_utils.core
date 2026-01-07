@@ -1,0 +1,17 @@
+CAPI=2:
+
+name: "serverhost:dv:str_utils"
+description: "String manipulation utilities"
+
+filesets:
+  files_dv:
+    depend:
+      - serverhost:dv:dv_macros
+    files:
+      - str_utils_pkg.sv
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_dv

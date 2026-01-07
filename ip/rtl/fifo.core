@@ -1,0 +1,15 @@
+CAPI=2:
+name: "server_name:ip:fifo:0.1"
+description: "A simple FIFO IP from the reference project"
+
+filesets:
+  files_rtl:
+    files:
+      # This MUST match the name of your RTL file exactly
+      - fifo.sv
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_rtl

@@ -1,0 +1,31 @@
+CAPI=2:
+
+name: "server_name:dv:fifo_env:0.1"
+description: "FIFO DV UVM environment"
+filesets:
+  files_dv:
+    depend:
+      - server_name:dv:dv_lib
+      - server_name:dv:fifo_agent
+    files:
+      - fifo_env_pkg.sv
+      - fifo_env_cfg.sv: {is_include_file: true}
+      - fifo_env_cov.sv: {is_include_file: true}
+      - fifo_virtual_sequencer.sv: {is_include_file: true}
+      - fifo_scoreboard.sv: {is_include_file: true}
+      - fifo_env.sv: {is_include_file: true}
+      - seq_lib/fifo_vseq_list.sv: {is_include_file: true}
+      - seq_lib/fifo_base_vseq.sv: {is_include_file: true}
+      - seq_lib/fifo_common_vseq.sv: {is_include_file: true}
+      - seq_lib/fifo_smoke_vseq.sv: {is_include_file: true}
+      - seq_lib/fifo_overflow_vseq.sv: {is_include_file: true}
+      - seq_lib/fifo_underflow_vseq.sv: {is_include_file: true}
+      - seq_lib/fifo_almost_full_empty_vseq.sv: {is_include_file: true}
+      - seq_lib/fifo_back_to_back_vseq.sv: {is_include_file: true}
+    file_type: systemVerilogSource
+
+
+targets:
+  default:
+    filesets:
+      - files_dv

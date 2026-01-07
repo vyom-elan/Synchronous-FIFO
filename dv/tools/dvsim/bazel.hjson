@@ -1,0 +1,4 @@
+{
+  sw_build_cmd: "bazel"
+  sw_build_opts: []
+}

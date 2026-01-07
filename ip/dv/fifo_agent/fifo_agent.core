@@ -1,0 +1,26 @@
+CAPI=2:
+
+name: "server_name:dv:fifo_agent:0.1"
+description: "FIFO DV UVM agent"
+filesets:
+  files_dv:
+    depend:
+      - server_name:dv:dv_utils
+      - server_name:dv:dv_lib
+    files:
+      - fifo_if.sv
+      - fifo_agent_pkg.sv
+      - fifo_item.sv: {is_include_file: true}
+      - fifo_agent_cfg.sv: {is_include_file: true}
+      - fifo_agent_cov.sv: {is_include_file: true}
+      - fifo_driver.sv: {is_include_file: true}
+      - fifo_monitor.sv: {is_include_file: true}
+      - fifo_agent.sv: {is_include_file: true}
+      - seq_lib/fifo_base_seq.sv: {is_include_file: true}
+      - seq_lib/fifo_seq_list.sv: {is_include_file: true}
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_dv

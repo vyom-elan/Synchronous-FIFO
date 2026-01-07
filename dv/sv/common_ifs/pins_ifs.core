@@ -1,0 +1,16 @@
+CAPI=2:
+
+
+name: "server:dv:pins_if"
+description: "Common interfaces used in DV"
+
+filesets:
+  files_dv:
+    files:
+      - pins_if.sv
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_dv

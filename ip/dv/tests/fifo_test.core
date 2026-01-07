@@ -1,0 +1,17 @@
+CAPI=2:
+
+name: "server_name:dv:fifo_test:0.1"
+description: "FIFO DV UVM test"
+filesets:
+  files_dv:
+    depend:
+      - server_name:dv:fifo_env
+    files:
+      - fifo_test_pkg.sv
+      - fifo_base_test.sv: {is_include_file: true}
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets:
+      - files_dv
